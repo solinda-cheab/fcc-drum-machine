@@ -1,0 +1,200 @@
+/* --- Base Application Setup --- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  padding: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- Hardware Chassis / Drum Machine Body --- */
+#drum-machine {
+  width: min(100%, 540px);
+  background: linear-gradient(135deg, #1e1e24 0%, #121214 100%);
+  border: 2px solid #2a2a32;
+  border-top-color: #3a3a45; /* Simulated top lighting */
+  border-radius: 20px;
+  padding: 36px;
+  /* Multi-layered shadows for realistic weight and depth */
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.5),
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0px rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* --- Header & Typography --- */
+.machine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.04);
+  padding-bottom: 16px;
+}
+
+#drum-machine h2 {
+  color: #f1f5f9;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.machine-subtitle {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* --- Hardware LCD Display Screen --- */
+#display {
+  background: #070a0e;
+  border: 2px solid #1a202c;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: grid;
+  gap: 4px;
+  margin-bottom: 32px;
+  /* Inset shadow creates screen recession depth */
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+/* Simulated screen glare gloss */
+#display::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 50%);
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.display-label {
+  color: #38bdf8; /* Retro neon sci-fi blue */
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.8;
+}
+
+.display-value {
+  color: #06b6d4;
+  font-family: 'Courier New', Courier, monospace; /* Matrix / Synth font vibe */
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+}
+
+/* --- Pad Grid Layout --- */
+.pads {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 12px;
+  background: #0b0b0d;
+  border-radius: 16px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Premium Velocity-Sensitive Drum Pads --- */
+.drum-pad {
+  min-height: 96px;
+  outline: none;
+  border: none;
+  border-radius: 12px;
+  /* Thick rubber pad texture look */
+  background: linear-gradient(180deg, #2d3139 0%, #1e2126 100%);
+  color: #94a3b8;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  position: relative;
+  
+  /* Bevel and base shadow */
+  box-shadow: 
+    0 5px 0px #111317,
+    0 8px 10px rgba(0,0,0,0.5),
+    inset 0 1px 0px rgba(255,255,255,0.1);
+  
+  transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Subtle LED ring inside the pad */
+.drum-pad::before {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 9px;
+  pointer-events: none;
+}
+
+/* --- Pad Interaction States (LED Glow) --- */
+
+/* Hover state: Pad prepares for strike, lights up softly */
+.drum-pad:hover {
+  color: #fafafa;
+  background: white;
+  color:#070a0e;
+  box-shadow: 
+    0 5px 0px #111317,
+    0 8px 14px rgba(59, 130, 246, 0.15),
+    inset 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Active State: The actual pad strike / click physical compression */
+.drum-pad:active, 
+.drum-pad.active { /* Included .active class if handled via JavaScript keydown */
+  transform: translateY(4px); /* Pushes down into the chassis */
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); /* Neon blue trigger */
+  color: #fff;
+  
+  /* Flattens the bottom shadow because pad is physically compressed */
+  box-shadow: 
+    0 1px 0px #111317,
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(59, 130, 246, 0.7); /* Electric LED illumination */
+}
+
+.drum-pad:focus-visible {
+  box-shadow: 0 0 0 3px #3b82f6;
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 540px) {
+  #drum-machine {
+    padding: 24px;
+  }
+
+  .pads {
+    gap: 14px;
+    padding: 8px;
+  }
+
+  .drum-pad {
+    min-height: 84px;
+    font-size: 1.2rem;
+    box-shadow: 
+      0 4px 0px #111317,
+      0 6px 8px rgba(0,0,0,0.5);
+  }
+}
+
+@media (max-width: 390px) {
+  .pads {
+    grid-template-columns: repeat(2, 1fr); /* Snug grid for micro screens */
+  }
+}
